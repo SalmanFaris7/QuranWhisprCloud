@@ -1,6 +1,14 @@
 fastapi>=0.110.0
 uvicorn[standard]>=0.29.0
 python-multipart>=0.0.9        # for UploadFile
-openai-whisper>=20231117       # ASR model
+# openai-whisper>=20231117       # ASR model
 requests>=2.31.0              # for downloading Quran JSON on first run
 pydantic>=2.0.0
+
+
+# ASR stack for tarteel whispr model
+
+transformers>=4.40.0
+torch>=2.2.0
+librosa>=0.10.1
+soundfile>=0.12.1

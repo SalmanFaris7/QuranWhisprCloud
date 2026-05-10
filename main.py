@@ -23,7 +23,7 @@ try:
     )
 
     model = WhisperForConditionalGeneration.from_pretrained("tarteel-ai/whisper-base-ar-quran")
-    model.generation_config = GenerationConfig.from_pretrained("openai/whisper-base")
+    model.generation_config = GenerationConfig.from_pretrained("tarteel-ai/whisper-base-ar-quran")
 
     processor = AutoProcessor.from_pretrained("tarteel-ai/whisper-base-ar-quran")
 
