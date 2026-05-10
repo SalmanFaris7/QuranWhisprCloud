@@ -1,0 +1,6 @@
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+python-multipart>=0.0.9        # for UploadFile
+openai-whisper>=20231117       # ASR model
+requests>=2.31.0              # for downloading Quran JSON on first run
+pydantic>=2.0.0
