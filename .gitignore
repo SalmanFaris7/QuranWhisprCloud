@@ -41,3 +41,7 @@ Thumbs.db
 dist/
 build/
 *.egg-info/
+
+
+# Build Text files
+ProductionReport.txt
