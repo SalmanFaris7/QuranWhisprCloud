@@ -12,6 +12,7 @@ from typing import Optional
 import tempfile, os, re, subprocess
 import difflib
 import librosa
+import torch
 
 # ── ASR Model (Tarteel AI - Quran-tuned) ──────────────────────────────────────
 try:
@@ -23,7 +24,15 @@ try:
     )
 
     model = WhisperForConditionalGeneration.from_pretrained("tarteel-ai/whisper-base-ar-quran")
-    model.generation_config = GenerationConfig.from_pretrained("tarteel-ai/whisper-base-ar-quran")
+
+
+    model = model.to("cuda" if torch.cuda.is_available() else "cpu")
+
+    if torch.cuda.device_count() > 1:
+        model = torch.nn.DataParallel(model)
+
+    
+    model.generation_config = GenerationConfig.from_pretrained("openai/whisper-base")
 
     processor = AutoProcessor.from_pretrained("tarteel-ai/whisper-base-ar-quran")
 
@@ -32,7 +41,7 @@ try:
         model=model,
         tokenizer=processor.tokenizer,
         feature_extractor=processor.feature_extractor,
-        device="cpu",
+        device=0 if torch.cuda.is_available() else -1,
     )
     ASR_AVAILABLE = True
     print("[quran-api] ✅ Tarteel ASR model loaded")
@@ -141,7 +150,6 @@ async def recite(
         audio_array, sr = librosa.load(wav_path, sr=16000, mono=True)
 
         # Transcribe
-        audio_array, sr = librosa.load(wav_path, sr=16000, mono=True)
         duration = len(audio_array) / sr
 
         if duration > 30:
